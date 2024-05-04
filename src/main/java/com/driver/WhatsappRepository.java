@@ -192,22 +192,22 @@ public class WhatsappRepository {
 
     }
 
-    public String findMessage(Date start, Date end, int K) throws Exception {
-        List<Message> ml = new ArrayList<>();
-        for (Group gl : groupUserMap.keySet())
-        {
-            ml = groupMessageMap.get(gl);
-        }
-        List<Message> filterMessage = new ArrayList<>();
-        for (Message message : ml){
-            if (message.getTimestamp().after(start) && message.getTimestamp().before(end)){
-                filterMessage.add(message);
-            }
-        }
-        if (filterMessage.size() < K) throw new Exception("K is greater than the number of messages");
-
-        Collections.sort(filterMessage,(o1,o2) -> o2.getContent().compareTo(o1.getContent()));
-
-        return filterMessage.get(K-1).getContent();
-    }
+//    public String findMessage(Date start, Date end, int K) throws Exception {
+//        List<Message> ml = new ArrayList<>();
+//        for (Group gl : groupUserMap.keySet())
+//        {
+//            ml = groupMessageMap.get(gl);
+//        }
+//        List<Message> filterMessage = new ArrayList<>();
+//        for (Message message : ml){
+//            if (message.getTimestamp().after(start) && message.getTimestamp().before(end)){
+//                filterMessage.add(message);
+//            }
+//        }
+//        if (filterMessage.size() < K) throw new Exception("K is greater than the number of messages");
+//
+//        Collections.sort(filterMessage,(o1,o2) -> o2.getContent().compareTo(o1.getContent()));
+//
+//        return filterMessage.get(K-1).getContent();
+//    }
 }
