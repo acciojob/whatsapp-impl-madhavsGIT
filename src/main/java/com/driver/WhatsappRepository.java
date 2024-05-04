@@ -53,25 +53,39 @@ public class WhatsappRepository {
         // If there are 2+ users, the name of group should be "Group #count". For example, the name of first group would be "Group 1", second would be "Group 2" and so on.
         // Note that a personal chat is not considered a group and the count is not updated for personal chats.
 
-       int size = users.size();
-       if(size == 2){
-           Group newgroup = new Group();
-           newgroup.setName(users.get(1).getName());
-           groupUserMap.put(newgroup,users);
-           groupMessageMap.put(newgroup,new ArrayList<Message>());
-          // adminMap.put(newgroup, users.get(1));
-           return newgroup;
-       }
-       else{
-           customGroupCount++;
+//       int size = users.size();
+//       if(size == 2){
+//           Group newgroup = new Group();
+//           newgroup.setName(users.get(1).getName());
+//           groupUserMap.put(newgroup,users);
+//           groupMessageMap.put(newgroup,new ArrayList<Message>());
+//          // adminMap.put(newgroup, users.get(1));
+//           return newgroup;
+//       }
+//       else{
+//           customGroupCount++;
+//
+//           Group newgroup = new Group();
+//           newgroup.setName("Group " + (customGroupCount));
+//           groupMessageMap.put(newgroup,new ArrayList<Message>());
+//           groupUserMap.put(newgroup,users);
+//           adminMap.put(newgroup, users.get(0));
+//           return newgroup;
+//       }
 
-           Group newgroup = new Group();
-           newgroup.setName("Group " + (customGroupCount));
-           groupMessageMap.put(newgroup,new ArrayList<Message>());
-           groupUserMap.put(newgroup,users);
-           adminMap.put(newgroup, users.get(0));
-           return newgroup;
-       }
+        if(users.size() == 2){
+            Group group = new Group(users.get(1).getName(),users.size());
+            groupUserMap.put(group,users);
+            groupMessageMap.put(group,new ArrayList<Message>());
+            return group;
+        }else {
+            customGroupCount++;
+            Group group = new Group("Group " + customGroupCount,users.size());
+            adminMap.put(group,users.get(0));
+            groupMessageMap.put(group,new ArrayList<Message>());
+            groupUserMap.put(group,users);
+            return group;
+        }
 
 
 
