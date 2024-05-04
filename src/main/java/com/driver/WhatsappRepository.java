@@ -46,7 +46,7 @@ public class WhatsappRepository {
         return "SUCCESS";
     }
 
-    public String createGroup(List<User> users){
+    public Group createGroup(List<User> users){
 
         // The list contains at least 2 users where the first user is the admin.
         // If there are only 2 users, the group is a personal chat and the group name should be kept as the name of the second user(other than admin)
@@ -60,8 +60,9 @@ public class WhatsappRepository {
            groupUserMap.put(newgroup,users);
            groupMessageMap.put(newgroup,new ArrayList<Message>());
           // adminMap.put(newgroup, users.get(1));
+           return newgroup;
        }
-       if(size > 2){
+       else{
            customGroupCount++;
 
            Group newgroup = new Group();
@@ -69,9 +70,10 @@ public class WhatsappRepository {
            groupMessageMap.put(newgroup,new ArrayList<Message>());
            groupUserMap.put(newgroup,users);
            adminMap.put(newgroup, users.get(0));
+           return newgroup;
        }
 
-       return "SUCCESS";
+
 
     }
 
