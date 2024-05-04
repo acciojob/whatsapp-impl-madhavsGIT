@@ -2,12 +2,7 @@ package com.driver;
 
 import java.util.*;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("whatsapp")
@@ -17,7 +12,8 @@ public class WhatsappController {
     WhatsappService whatsappService = new WhatsappService();
 
     @PostMapping("/add-user")
-    public String createUser(String name, String mobile) throws Exception {
+    public String createUser(@RequestParam("name") String name,
+                             @RequestParam("mobile") String mobile) throws Exception {
         //If the mobile number exists in database, throw "User already exists" exception
         //Otherwise, create the user and return "SUCCESS"
 
@@ -25,7 +21,7 @@ public class WhatsappController {
     }
 
     @PostMapping("/add-group")
-    public String createGroup(List<User> users){
+    public String createGroup(@RequestBody List<User> users){
         // The list contains at least 2 users where the first user is the admin. A group has exactly one admin.
         // If there are only 2 users, the group is a personal chat and the group name should be kept as the name of the second user(other than admin)
         // If there are 2+ users, the name of group should be "Group count". For example, the name of first group would be "Group 1", second would be "Group 2" and so on.
@@ -39,7 +35,7 @@ public class WhatsappController {
     }
 
     @PostMapping("/add-message")
-    public int createMessage(String content){
+    public int createMessage(@RequestParam("content") String content){
         // The 'i^th' created message has message id 'i'.
         // Return the message id.
 
@@ -47,7 +43,9 @@ public class WhatsappController {
     }
 
     @PutMapping("/send-message")
-    public int sendMessage(Message message, User sender, Group group) throws Exception{
+    public int sendMessage(@RequestParam("message") Message message,
+                           @RequestParam("sender") User sender,
+                          @RequestParam("group") Group group) throws Exception{
         //Throw "Group does not exist" if the mentioned group does not exist
         //Throw "You are not allowed to send message" if the sender is not a member of the group
         //If the message is sent successfully, return the final number of messages in that group.
@@ -55,7 +53,9 @@ public class WhatsappController {
         return whatsappService.sendMessage(message, sender, group);
     }
     @PutMapping("/change-admin")
-    public String changeAdmin(User approver, User user, Group group) throws Exception{
+    public String changeAdmin(@RequestParam("approver") User approver,
+                             @RequestParam("user") User user,
+                             @RequestParam("group") Group group) throws Exception{
         //Throw "Group does not exist" if the mentioned group does not exist
         //Throw "Approver does not have rights" if the approver is not the current admin of the group
         //Throw "User is not a participant" if the user is not a part of the group
@@ -65,7 +65,7 @@ public class WhatsappController {
     }
 
     @DeleteMapping("/remove-user")
-    public int removeUser(User user) throws Exception{
+    public int removeUser(@RequestParam("user") User user) throws Exception{
         //This is a bonus problem and does not contains any marks
         //A user belongs to exactly one group
         //If user is not found in any group, throw "User not found" exception
