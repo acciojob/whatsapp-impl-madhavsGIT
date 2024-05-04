@@ -4,6 +4,14 @@ public class Group {
     private String name;
     private int numberOfParticipants;
 
+    public Group(int numberOfParticipants, String name) {
+        this.numberOfParticipants = numberOfParticipants;
+        this.name = name;
+    }
+
+    public Group() {
+    }
+
     public String getName() {
         return name;
     }
