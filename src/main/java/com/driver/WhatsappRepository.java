@@ -86,24 +86,41 @@ public class WhatsappRepository {
         return message.getId();
     }
 
-    public int sendMessage(Message message, User sender, Group group) throws Exception{
+//    public int sendMessage(Message message, User sender, Group group) throws Exception{
+//
+//        if(!groupMessageMap.containsKey(group)){
+//            throw new Exception("Group does not exist");
+//        }
+//       List<User> userList =  groupUserMap.get(group);
+//        if(!userList.contains(sender)){
+//            throw new Exception("You are not allowed to send message");
+//
+//        }
+//
+//        List<Message> messageList = groupMessageMap.get(group);
+//        messageList.add(message);
+//        groupMessageMap.put(group, messageList);
+//        senderMap.put(message, sender);
+//
+//        return messageList.size();
+//
+//    }
 
-        if(!groupMessageMap.containsKey(group)){
-            throw new Exception("Group does not exist");
+
+    public int sendMessage(Message message, User sender, Group group) throws RuntimeException {
+        if(!groupUserMap.containsKey(group)){
+            throw new RuntimeException("Group does not exist");
+        }else{
+            for(User user : groupUserMap.get(group)){
+                if(user.equals(sender)){
+                    List<Message> messageList= groupMessageMap.get(group);
+                    messageList.add(message);
+                    senderMap.put(message,sender);
+                    return  messageList.size();
+                }
+            }
+            throw new RuntimeException("You are not allowed to send message");
         }
-       List<User> userList =  groupUserMap.get(group);
-        if(!userList.contains(sender)){
-            throw new Exception("You are not allowed to send message");
-
-        }
-
-        List<Message> messageList = groupMessageMap.get(group);
-        messageList.add(message);
-        groupMessageMap.put(group, messageList);
-        senderMap.put(message, sender);
-
-        return messageList.size();
-
     }
 
     public String changeAdmin(User approver, User user, Group group) throws Exception{
